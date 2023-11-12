@@ -38,19 +38,17 @@ private:
   GLint m_colorLocation{};
 
   Camera m_camera;
+  Ground m_ground;
+  Cat m_cat;
+
   float m_dollySpeed{};
   float m_truckSpeed{};
   float m_panSpeed{};
   float m_catSpeed{};
   float m_catRotation{};
-  float m_red{};
-  float m_green{};
-  float m_blue{};
-
-  Cat m_cat;
-
-  
-  Ground m_ground;
+  float m_red{1.0f};
+  float m_green{1.0f};
+  float m_blue{1.0f};
 
   std::vector<Vertex> m_vertices;
   std::vector<GLuint> m_indices;

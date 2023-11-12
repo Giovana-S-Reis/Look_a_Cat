@@ -13,52 +13,60 @@ template <> struct std::hash<Vertex> {
 void Window::onEvent(SDL_Event const &event) {
   if (event.type == SDL_KEYDOWN) {
     if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w) {
-      //m_dollySpeed = -1.0f;
-      m_catSpeed = -1.0f;
+      m_catSpeed = +1.0f;
+      m_dollySpeed = -cosf(glm::radians(m_cat.m_rotation));
+      m_truckSpeed = sinf(glm::radians(m_cat.m_rotation));
     }
     if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s) {
-      //m_dollySpeed = 1.0f;
-      m_catSpeed = +1.0f;
+      m_catSpeed = -1.0f;
+      m_dollySpeed = -cosf(glm::radians(m_cat.m_rotation+180));
+      m_truckSpeed = sinf(glm::radians(m_cat.m_rotation+180));
     }
     if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a) {
-      //m_panSpeed = 1.0f;
-      m_catRotation = -1.0f;
+      m_catRotation = 0.1f;
     }
     if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d) {
-      //m_panSpeed = -1.0f;
-      m_catRotation = 1.0f;
+      m_catRotation = -0.1f;
     }
-    if (event.key.keysym.sym == SDLK_q)
-      m_truckSpeed = -1.0f;
-    if (event.key.keysym.sym == SDLK_e)
-      m_truckSpeed = 1.0f;
+    // if (event.key.keysym.sym == SDLK_q)
+    //   m_truckSpeed = -1.0f;
+    // if (event.key.keysym.sym == SDLK_e)
+    //   m_truckSpeed = 1.0f;
   }
   if (event.type == SDL_KEYUP) {
     if ((event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w) &&
         m_catSpeed != 0) {
       m_dollySpeed = 0.0f;
       m_catSpeed = 0.0f;
+      m_truckSpeed = 0.0f;
+      m_catRotation = 0.0f;
     }
     if ((event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s) &&
         m_catSpeed != 0) {
       m_dollySpeed = 0.0f;
       m_catSpeed = 0.0f;
+      m_truckSpeed = 0.0f;
+      m_catRotation = 0.0f;
     }
     if ((event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a) &&
         m_catRotation != 0) {
-      m_panSpeed = 0.0f;
+      m_dollySpeed = 0.0f;
+      m_catSpeed = 0.0f;
+      m_truckSpeed = 0.0f;
       m_catRotation = 0.0f;
     }
     if ((event.key.keysym.sym == SDLK_RIGHT ||
          event.key.keysym.sym == SDLK_d) &&
         m_catRotation != 0) {
-      m_panSpeed = 0.0f;
+      m_dollySpeed = 0.0f;
+      m_catSpeed = 0.0f;
+      m_truckSpeed = 0.0f;
       m_catRotation = 0.0f;
     }
-    if (event.key.keysym.sym == SDLK_q && m_truckSpeed < 0)
-      m_truckSpeed = 0.0f;
-    if (event.key.keysym.sym == SDLK_e && m_truckSpeed > 0)
-      m_truckSpeed = 0.0f;
+    // if (event.key.keysym.sym == SDLK_q && m_truckSpeed < 0)
+    //   m_truckSpeed = 0.0f;
+    // if (event.key.keysym.sym == SDLK_e && m_truckSpeed > 0)
+    //   m_truckSpeed = 0.0f;
   }
 }
 
@@ -66,10 +74,6 @@ void Window::onCreate() {
   auto const &assetsPath{abcg::Application::getAssetsPath()};
 
   abcg::glClearColor(0, 0, 0, 1);
-
-  m_red = 1.0f;
-  m_green = 1.0f;
-  m_blue = 1.0f;
 
   // Enable depth buffering
   abcg::glEnable(GL_DEPTH_TEST);
@@ -136,12 +140,12 @@ void Window::onPaintUI() {
   abcg::OpenGLWindow::onPaintUI();
 
   // Window begin
-  ImGui::Begin("Alterando as cores");  
+  ImGui::Begin("Cores");  
   if (ImGui::Button("+ Red", ImVec2(100, 50))) {
     m_red += 0.25f;
   }
   if (ImGui::Button("- Red", ImVec2(100, 50))) {
-    m_red-= 0.25f;
+    m_red -= 0.25f;
   }
   if (ImGui::Button("+ Green", ImVec2(100, 50))) {
     m_green += 0.25f;

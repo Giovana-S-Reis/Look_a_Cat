@@ -14,11 +14,7 @@ template <> struct std::hash<Vertex> {
 
 void Cat :: create(GLuint program){
   //Initial position
-  m_translation = glm::vec3(1.0f, 0.7f, 0.0f);
-  m_red = 1.0f;
-  m_green = 1.0f;
-  m_blue = 1.0f;
-  
+  m_translation = glm::vec3(0.0f, 1.5f, 0.0f);
 
   //Initial rotation
   m_rotation = 90.0f;
@@ -31,7 +27,7 @@ void Cat :: create(GLuint program){
   
   loadModelFromFile(assetsPath + "cat.obj");
 
-  abcg::glClearColor(0, 0, 0, 1);
+  //abcg::glClearColor(0, 0, 0, 1);
 
   // Enable depth buffering
   abcg::glEnable(GL_DEPTH_TEST); 
@@ -147,7 +143,7 @@ void Cat :: paint(glm::ivec2 m_viewportSize, Camera m_camera, GLuint program) {
   model = glm::mat4(1.0);
   model = glm::translate(model, m_translation);
   model = glm::rotate(model, glm::radians(m_rotation), glm::vec3(0, 1, 0));
-  model = glm::scale(model, glm::vec3(0.1f));
+  model = glm::scale(model, glm::vec3(0.25f));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, m_red, m_green, m_blue, 1.0f);
@@ -161,8 +157,8 @@ void Cat::update(float speed, float deltaTime, float red, float green, float blu
 
   //auto const forward = glm::rotate(m_rotation,glm::vec3{0.0f, 1.0f, 0.0f});
   
-  m_translation.x += cosf(m_rotation) * speed * deltaTime;
-  m_translation.z += sinf(m_rotation) * speed * deltaTime;
+  m_translation.x += sinf(glm::radians(m_rotation)) * speed * deltaTime;
+  m_translation.z += cosf(glm::radians(m_rotation)) * speed * deltaTime;
   m_red = red;
   m_green = green;
   m_blue = blue;

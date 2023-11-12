@@ -17,7 +17,7 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <cppitertools/itertools.hpp>
 #include <fmt/core.h>
 #include <glm/glm.hpp>
