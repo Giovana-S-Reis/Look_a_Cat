@@ -14,7 +14,7 @@ template <> struct std::hash<Vertex> {
 
 void Cat :: create(GLuint program){
   //Initial position
-  m_translation = glm::vec3(0.0f, 1.5f, 0.0f);
+  m_translation = glm::vec3(0.0f, 1.75f, 0.0f);
 
   //Initial rotation
   m_rotation = 90.0f;
@@ -26,8 +26,6 @@ void Cat :: create(GLuint program){
   m_colorLocation = abcg::glGetUniformLocation(program, "color");
   
   loadModelFromFile(assetsPath + "cat.obj");
-
-  //abcg::glClearColor(0, 0, 0, 1);
 
   // Enable depth buffering
   abcg::glEnable(GL_DEPTH_TEST); 

@@ -2,6 +2,7 @@
 #define GROUND_HPP_
 
 #include "abcgOpenGL.hpp"
+#include <random>
 
 class Ground {
 public:
@@ -15,6 +16,9 @@ private:
 
   GLint m_modelMatrixLoc{};
   GLint m_colorLoc{};
+
+  std::default_random_engine m_randomEngine;
+  std::uniform_real_distribution<float> m_randomColor{0, 1};
 };
 
 #endif

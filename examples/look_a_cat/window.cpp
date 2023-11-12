@@ -13,20 +13,20 @@ template <> struct std::hash<Vertex> {
 void Window::onEvent(SDL_Event const &event) {
   if (event.type == SDL_KEYDOWN) {
     if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w) {
-      m_catSpeed = +1.0f;
-      m_dollySpeed = -cosf(glm::radians(m_cat.m_rotation));
-      m_truckSpeed = sinf(glm::radians(m_cat.m_rotation));
+      m_catSpeed = +3.5f;
+      m_dollySpeed = -cosf(glm::radians(m_cat.m_rotation)) * m_catSpeed;
+      m_truckSpeed = sinf(glm::radians(m_cat.m_rotation)) * m_catSpeed;
     }
     if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s) {
-      m_catSpeed = -1.0f;
-      m_dollySpeed = -cosf(glm::radians(m_cat.m_rotation+180));
-      m_truckSpeed = sinf(glm::radians(m_cat.m_rotation+180));
+      m_catSpeed = -3.5f;
+      m_dollySpeed = -cosf(glm::radians(m_cat.m_rotation+180)) * (-m_catSpeed);
+      m_truckSpeed = sinf(glm::radians(m_cat.m_rotation+180)) * (-m_catSpeed);
     }
     if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a) {
-      m_catRotation = 0.1f;
+      m_catRotation = 0.2f;
     }
     if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d) {
-      m_catRotation = -0.1f;
+      m_catRotation = -0.2f;
     }
     // if (event.key.keysym.sym == SDLK_q)
     //   m_truckSpeed = -1.0f;
@@ -143,21 +143,33 @@ void Window::onPaintUI() {
   ImGui::Begin("Cores");  
   if (ImGui::Button("+ Red", ImVec2(100, 50))) {
     m_red += 0.25f;
+    if (m_red > 1.0f)
+      m_red = 1.0f;
   }
   if (ImGui::Button("- Red", ImVec2(100, 50))) {
     m_red -= 0.25f;
+    if (m_red < 0.0f)
+      m_red = 0.0f;
   }
   if (ImGui::Button("+ Green", ImVec2(100, 50))) {
     m_green += 0.25f;
+    if (m_green > 1.0f)
+      m_green = 1.0f;
   }
   if (ImGui::Button("- Green", ImVec2(100, 50))) {
     m_green -= 0.25f;
+    if (m_green < 0.0f)
+      m_green = 0.0f;
   }
   if (ImGui::Button("+ Blue", ImVec2(100, 50))) {
     m_blue += 0.25f;
+    if (m_blue > 1.0f)
+      m_blue = 1.0f;
   }
   if (ImGui::Button("- Blue", ImVec2(100, 50))) {
     m_blue -= 0.25f;
+    if (m_blue < 0.0f)
+      m_blue = 0.0f;
   }
   ImGui::End();
     
